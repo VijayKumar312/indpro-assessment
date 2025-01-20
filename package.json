@@ -1,0 +1,15 @@
+{
+  "name": "indpro-assessment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "shopify theme dev --store vijaykumar-test-store.myshopify.com",
+    "dev-sync": "shopify theme dev --theme-editor-sync --store vijaykumar-test-store.myshopify.com",
+    "pull": "shopify theme pull --store vijaykumar-test-store.myshopify.com",
+    "share": "shopify theme share --store vijaykumar-test-store.myshopify.com"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
