@@ -593,3 +593,46 @@
     clip-path: polygon(var(--shape--blob-5));
   }
 }
+.cart-drawer__discount {
+  padding: 1rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.discount-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.discount-input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: none;
+}
+
+.discount-message {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.discount-message.success {
+  color: green;
+}
+
+.discount-message.error {
+  color: red;
+}
+#discount-apply-button{
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
