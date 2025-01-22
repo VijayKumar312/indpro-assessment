@@ -1,0 +1,70 @@
+<style>
+.cart-drawer__discount {
+  padding: 1rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.discount-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.discount-input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: none;
+}
+
+.discount-message {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.discount-message.success {
+  color: green;
+}
+
+.discount-message.error {
+  color: red;
+}
+#discount-apply-button{
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+</style>
+
+<!-- Add this HTML inside your cart drawer template, typically in sections/cart-drawer.liquid -->
+<div class="cart-drawer__discount">
+  <discount-input>
+    <div class="discount-form">
+      <div class="input-group">
+        <input 
+          type="text" 
+          name="discount" 
+          id="discount-code" 
+          class="discount-input"
+          placeholder="Enter discount code"
+        >
+        <button 
+          type="button" 
+          id="discount-apply-button"
+          class="apply-discount"
+        >
+          Apply
+        </button>
+      </div>
+      <p id="discountMessage" class="discount-message"></p>
+    </div>
+  </discount-input>
+</div>

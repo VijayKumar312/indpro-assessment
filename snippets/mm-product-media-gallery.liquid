@@ -1,0 +1,32 @@
+
+<div>
+    <thumbnail-carousel>
+        <div id="main-carousel" class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for image in product.images %}
+                        <li class="splide__slide">
+                            {% render "picture", mobileSrc: image.src, desktopSrc: image.src %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div
+            id="thumbnail-carousel"
+            class="splide"
+            aria-label="The carousel with thumbnails. Selecting a thumbnail will change the Beautiful Gallery carousel."
+        >
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for image in product.images %}
+                        <li class="splide__slide">
+                            {% render "picture", mobileSrc: image.src, desktopSrc: image.src %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </thumbnail-carousel>
+</div>
+

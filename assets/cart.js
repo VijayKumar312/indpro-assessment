@@ -284,3 +284,89 @@ if (!customElements.get('cart-note')) {
     }
   );
 }
+
+  class DiscountInput extends CartItems {
+    constructor() {
+      super();
+      this.applyButton = null
+    }
+
+    connectedCallback() {
+      this.applyButton = this.querySelector("#discount-apply-button")
+      this.applyButton.addEventListener('click', this.applyDiscount.bind(this))
+    }
+
+    getCookieValue(cookieName) {
+      const cookies = document.cookie.split("; ");
+      for (const cookie of cookies) {
+        const [name, value] = cookie.split("=");
+        if (name === cookieName) {
+          return decodeURIComponent(value);
+        }
+      }
+      return null;
+    }
+
+    async applyDiscount(e) {
+      e.preventDefault()
+      const discountCode = this.querySelector("#discount-code")?.value;
+      const messageElement = this.querySelector("#discountMessage");
+
+      if (!discountCode) {
+        messageElement.textContent = "Please enter a discount code";
+        messageElement.className = "discount-message error";
+        return;
+      }
+
+      const myCookieValue = this.getCookieValue("cart");
+      try {
+        if(myCookieValue){
+          this.applyButton.innerText = 'Loading...'
+          const response = await fetch(
+            `https://shopify-vercel-indpro-main.vercel.app/api/cart?cartToken=${myCookieValue}&discount=${discountCode}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const { data } = await response.json();
+          const discountResponse = data?.data?.cartDiscountCodesUpdate?.cart.discountCodes
+          if(discountResponse[0].applicable) {
+              // Update the message to reflect success
+              messageElement.textContent = "Discount applied successfully!";
+              messageElement.className = "discount-message success";
+              this.querySelector("#discount-code").value = ''
+
+              fetch(`${routes.cart_url}?section_id=cart-drawer`)
+              .then((response) => response.text())
+              .then((responseText) => {
+                const html = new DOMParser().parseFromString(responseText, 'text/html');
+                const targetElement = document.querySelector('#CartDrawer');
+                const sourceElement = html.querySelector('#CartDrawer');
+                
+                if (targetElement && sourceElement) {
+                    targetElement.replaceWith(sourceElement);
+                }
+                messageElement.textContent = ''
+              })
+              .catch((e) => {
+                console.error(e);
+                messageElement.textContent = e.message
+              });
+              return
+          }
+        }
+        messageElement.textContent = "Couldn't apply the entered discount code"
+        this.applyButton.innerText = 'Apply'
+      } catch (error) {
+        this.applyButton.innerText = 'Apply'
+        messageElement.textContent = "Error applying discount code";
+        messageElement.className = "discount-message error";
+        console.error("Error:", error);
+      }
+    }
+  }
+
+  customElements.define("discount-input", DiscountInput);

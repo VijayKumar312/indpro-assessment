@@ -123,6 +123,15 @@
       {% endif %}
       <ul role="list" class="list-unstyled countries">
         {%- for country in localization.available_countries -%}
+        {% if country.name == 'United States' or country.name == 'Spain' %}
+          {% liquid
+            assign country_name = ''
+            if country.name == 'United States'
+              assign country_name = 'United States'
+            else
+              assign country_name = 'Europe'
+            endif
+           %}
           <li class="disclosure__item" tabindex="-1">
             <a
               class="link link--text disclosure__link caption-large focus-inset"
@@ -140,13 +149,14 @@
               >
                 {{- 'icon-checkmark.svg' | inline_asset_content -}}
               </span>
-              <span class="country">{{- country.name }}</span>
+              <span class="country">{{- country_name }}</span>
               <span class="localization-form__currency motion-reduce{% unless show_currencies %} hidden{% endunless %}">
                 {{ country.currency.iso_code }}
                 {{ country.currency.symbol -}}
               </span>
             </a>
           </li>
+        {% endif %}
         {%- endfor -%}
       </ul>
     </div>
