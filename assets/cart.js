@@ -310,7 +310,7 @@ if (!customElements.get('cart-note')) {
     async applyDiscount(e) {
       e.preventDefault()
       const discountCode = this.querySelector("#discount-code")?.value;
-      const messageElement = this.querySelector("#discountMessage");
+      const messageElement = this.querySelector("#discount-message");
 
       if (!discountCode) {
         messageElement.textContent = "Please enter a discount code";
