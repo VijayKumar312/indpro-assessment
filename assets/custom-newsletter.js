@@ -1,14 +1,15 @@
 const customNewsletterButton = document.querySelector(".custom-newsletter-form .newsletter-button")
 if(customNewsletterButton){
-    customNewsletterButton.addEventListener("submit", async function (event) {
+    customNewsletterButton.addEventListener("click", async function (event) {
         event.preventDefault();
     
         const emailInput = document.getElementById("custom-email");
         const responseMessage = document.getElementById("response-message");
+        responseMessage.textContent=''
         const email = emailInput.value.trim();
     
         // Clear the response message and display a loader
-        responseMessage.textContent = "Submitting...";
+        customNewsletterButton.textContent = "Submitting...";
         responseMessage.style.color = "#555"; // Neutral color for the loader message
     
         if (!email) {
@@ -40,6 +41,7 @@ if(customNewsletterButton){
             responseMessage.textContent = "An error occurred. Please try again.";
             responseMessage.style.color = "red";
         } finally {
+            customNewsletterButton.innerText = "Subscribe"
             // Clear loader (if any) or update the message
             responseMessage.textContent += " ";
         }
