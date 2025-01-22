@@ -23,8 +23,7 @@ if(customNewsletterButton){
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email }),
+                }
             });
     
             // Check if the response is okay
@@ -32,6 +31,9 @@ if(customNewsletterButton){
                 responseMessage.textContent = "Thank you for subscribing!";
                 responseMessage.style.color = "#2c6e49"; // Success color
                 emailInput.value = ""; // Clear the input field
+                setTimeout(()=>{
+                    responseMessage.textContent = ''
+                },3000)
             } else {
                 const errorData = await response.json();
                 responseMessage.textContent = errorData.error || "Failed to subscribe.";
