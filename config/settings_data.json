@@ -126,6 +126,7 @@
     "show_cart_note": false,
     "cart_drawer_collection": "",
     "cart_color_scheme": "scheme-1",
+    "threshold_value": 1000,
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
