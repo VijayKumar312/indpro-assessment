@@ -464,6 +464,13 @@
                 %}
 
               {%- when 'variant_picker' -%}
+              {% unless product.has_only_default_variant %}
+                <div>
+                  {% for option in product.options_with_values %}
+                      <div>{{ option.name }}</div>
+                  {% endfor %}
+                </div>
+              {% endunless %}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
