@@ -467,7 +467,14 @@
               {% unless product.has_only_default_variant %}
                 <div>
                   {% for option in product.options_with_values %}
-                      <div>{{ option.name }}</div>
+                      <div>
+                        <p>{{ option.name }}</p>
+                        {% for value in option.values %}
+                          <label>
+                            <input type="radio" value="{{ value }}" name="{{ option.name }}" {% if value==option.selected_value %}selected{% endif %} />
+                          </label>
+                        {% endfor %}
+                      </div>
                   {% endfor %}
                 </div>
               {% endunless %}
