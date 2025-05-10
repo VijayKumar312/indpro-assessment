@@ -1,0 +1,110 @@
+{{ 'product-information.css' |  asset_url |  stylesheet_tag }}
+
+<div class="page-width">
+    <ul class="product-info__tabs">
+        <li data-tab-index="0">Products Details</li>
+        <li class="active" data-tab-index="1">Customer Reviews</li> 
+        <li data-tab-index="2">FAQs</li>
+    </ul>
+    <div>
+        <div class="product-info__details product-info__content hidden">
+            {% if product.metafields.custom.product_specifications.value != blank %}
+                <div class="additional-info">
+                    <h2>Specifications</h2>
+                    <table>
+                        {% for specification in product.metafields.custom.product_specifications.value.specifications %}
+                            <tr>
+                                <td>{{ specification['name'] }}</td>
+                                <td>{{ specification['value'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endif %}
+
+            {% if product.metafields.custom.product_key_features != blank %}
+                <div class="features-section">
+                    <h2>Key Features</h2>
+                    <div>{{ product.metafields.custom.product_key_features | metafield_tag }}</div>
+                </div>
+            {% endif %}
+
+            {% if product.metafields.custom.product_benefits != blank %}
+                <div class="benefits-section">
+                    <h2>Benefits</h2>
+                    <div>{{ product.metafields.custom.product_benefits | metafield_tag }}</div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="product-info__reviews product-info__content">
+            {% if product.metafields.custom.customer_reviews.value != blank %}
+                <carousel-component id="carousel--{{ section.id }}" class="splide" style="display: block">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            {% for review in product.metafields.custom.customer_reviews.value.reviews %}
+                                <div class="splide__slide">
+                                    <div class="review-item">
+                                        <div class="flex justify-between">
+                                            {% assign rating = review['rating'] | round %}
+                                            <div class="review-stars">
+                                                {% for i in (1..rating) %}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="orange">
+                                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                                    </svg>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="review-date">{{ review['created_date'] | date: '%B %d, %Y' }}</div>
+                                        </div>
+
+                                        <h3 class="review-title">{{ review['title'] }}</h3>
+
+                                        <p class="review-content">
+                                            {{ review['content'] }}
+                                        </p>
+                                
+                                        <div class="review-user flex items-center">
+                                            <img src={{ review['user_profile_image_url'] }} width="60" height="60" alt="Reviewer Photo" class="user-review-img" />
+                                            
+                                            <div class="review__user-details">
+                                                <p class="user-name">{{ review['customer_name'] }}</p>
+                                                <p class="user-role">{% if review['verified_buyer'] %}Verified Buyer{% else %}Unverified Buyer{% endif %}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </carousel-component>
+            {% endif %}
+        </div>
+
+        <div class="faq-section product-info__content hidden">
+            {% if product.metafields.custom.faq_entries.value != blank %}
+                {% for faq in product.metafields.custom.faq_entries.value.faqs %}
+                    <details class="faq-item">
+                        <summary class="faq-question">{{ faq['question'] }}</summary>
+                        <div class="faq-content">
+                            {{ faq['answer'] }}
+                        </div>
+                    </details>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const tabs = document.querySelectorAll('.product-info__tabs li');
+    const tabContents = document.querySelectorAll('.product-info__content');
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            tabContents.forEach(t => t.classList.add('hidden'));
+            tabContents[index].classList.remove('hidden');
+        })
+    })
+</script>

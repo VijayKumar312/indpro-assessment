@@ -1465,5 +1465,15 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Threshold value",
+    "settings": [
+      {
+        "type": "number",
+        "id": "threshold_value",
+        "label": "Enter the threshold amount for free delivery"
+      }
+    ]
   }
 ]

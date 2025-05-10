@@ -49,6 +49,10 @@
           "type": "description",
           "settings": {}
         },
+        "product_information_Yrjpti": {
+          "type": "product_information",
+          "settings": {}
+        },
         "share": {
           "type": "share",
           "settings": {
@@ -64,6 +68,7 @@
         "quantity_selector",
         "buy_buttons",
         "description",
+        "product_information_Yrjpti",
         "share"
       ],
       "settings": {
@@ -84,6 +89,7 @@
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -99,10 +105,15 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "custom_newsletter_NpWayN": {
+      "type": "custom-newsletter",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "custom_newsletter_NpWayN"
   ]
 }

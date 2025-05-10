@@ -74,6 +74,28 @@
           </span>
         </button>
       </div>
+      {% if cart != empty %}
+        <div class="shipping-percentage-box-container">
+              {% assign cart_price = cart.total_price | divided_by: 100 %}
+              {% if cart_price >= settings.threshold_value %}
+                  <p class="success-msg">Congrats! you're eligible for free shipping</p>
+              {% else %}
+                <div>
+                  <div class="shipping_percentage__box">
+                    {% assign percentage =  settings.threshold_value | minus: cart_price | times: 100 | divided_by: settings.threshold_value %}
+                    <div class="shipping_percentage__box--item" style="width: {{ 100 | minus: percentage }}%">
+                      <div class="truck-icon">
+                        {% render "icon" with 'delivery-truck' %}            
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="h4 free-delivery-info-container">
+                  Shop above {{ settings.threshold_value | times: 100 | money_without_trailing_zeros }} to get Free Delivery
+                </div>
+              {% endif %}
+          </div>
+      {% endif %}
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
@@ -455,6 +477,7 @@
         </form>
       </cart-drawer-items>
       <div class="drawer__footer">
+        {% render "discount-input" %}
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
             <summary>

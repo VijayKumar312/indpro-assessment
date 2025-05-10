@@ -1267,3 +1267,110 @@ class BulkAdd extends HTMLElement {
 if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
+
+class Carousel extends HTMLElement{
+  constructor(){
+      super();
+      this.carouselElement = this;
+
+      // Carousel element should have class splide
+      if (!this.carouselElement.classList.contains('splide')) return;
+  }
+  connectedCallback(){
+      this.initCarousel();
+  }
+  initCarousel(){
+      this.carousel = new Splide(this.carouselElement, {
+          type: 'loop',
+          perPage: 1,
+          focus: 'center',
+          autoplay: true,
+          interval: 3000,
+          pagination: true,
+          arrows: true,
+          gap: '10px',
+          rewind: true
+      });
+      this.carousel.mount();
+  }
+}
+customElements.define('carousel-component', Carousel);
+
+class ThumbnailCarousel extends HTMLElement {
+  constructor() {
+    super();
+    this.main = null; // Main carousel instance
+    this.thumbnail = null; // Thumbnail carousel instance
+  }
+
+  connectedCallback() {
+    this.initCarouselSync(); // Initialize carousels on connection
+    window.addEventListener('resize', this.handleResize.bind(this)); // Handle resize events
+  }
+
+  disconnectedCallback() {
+    // Clean up event listeners when the element is removed
+    window.removeEventListener('resize', this.handleResize.bind(this));
+    this.destroySplide(); // Destroy instances when disconnected
+  }
+
+  initCarouselSync() {
+    this.handleResize(); // Initialize or destroy based on screen size
+  }
+
+  initializeSplide() {
+    // Initialize Splide only if the viewport width is greater than 600px
+    if (window.innerWidth > 750) {
+      this.main = new Splide('#main-carousel', {
+        type: 'fade',
+        rewind: true,
+        pagination: false,
+        arrows: false,
+      });
+
+      this.thumbnail = new Splide('#thumbnail-carousel', {
+        fixedWidth: 100,
+        fixedHeight: 60,
+        gap: 10,
+        rewind: true,
+        pagination: false,
+        isNavigation: true,
+        breakpoints: {
+          600: {
+            fixedWidth: 60,
+            fixedHeight: 44,
+          },
+        },
+      });
+
+      // Sync main and thumbnail carousels
+      this.main.sync(this.thumbnail);
+      this.main.mount();
+      this.thumbnail.mount();
+    }
+  }
+
+  destroySplide() {
+    // Destroy Splide if instances exist
+    if (this.main) {
+      this.main.destroy();
+      this.main = null; // Reset the instance
+    }
+    if (this.thumbnail) {
+      this.thumbnail.destroy();
+      this.thumbnail = null; // Reset the instance
+    }
+  }
+
+  handleResize() {
+    // Initialize or destroy Splide based on the screen size
+    if (window.innerWidth <= 750) {
+      this.destroySplide();
+    } else if (!this.main || !this.thumbnail) {
+      this.initializeSplide();
+    }
+  }
+}
+
+// Define the custom element
+customElements.define('thumbnail-carousel', ThumbnailCarousel);
